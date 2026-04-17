@@ -1,64 +1,64 @@
-# Lab 2 — Electron Framework: Survey Form
+# Лабораторна робота №2 — Electron Framework: Форма опитування
 
-**Course:** Розробка інтерфейсів користувача  
-**University:** Київський національний університет імені Тараса Шевченка  
-**Student:** Малецький Роман Миколайович
-
----
-
-## About
-
-Desktop application built with **Electron** that implements a user survey form.  
-The app asks the user 3 questions, validates input, and appends the answers to a local text file.
-
-**Variant 1 — "Survey Form"**
+**Курс:** Розробка інтерфейсів користувача  
+**Університет:** Київський національний університет імені Тараса Шевченка  
+**Студент:** Малецький Роман Миколайович
 
 ---
 
-## Features
+## Про застосунок
 
-- 3-question survey: **Name**, **Age** (1–120), **Favorite Programming Language**
-- Language field with autocomplete suggestions via `<datalist>` (20 languages), free text input also supported
-- Answers appended to `survey_answers.txt` with a timestamp
-- Success notification after saving; form clears automatically
-- Strict Electron security: `contextIsolation: true`, `nodeIntegration: false`, IPC via `preload.js`
+Десктопний застосунок на базі **Electron**, що реалізує форму опитування користувача.  
+Застосунок задає 3 запитання, перевіряє введені дані та дописує відповіді до локального текстового файлу.
+
+**Варіант 1 — "Форма опитування"**
 
 ---
 
-## Project Structure
+## Функціональність
+
+- Три запитання: **Ім'я**, **Вік** (1–120), **Улюблена мова програмування**
+- Поле мови підтримує автодоповнення через `<datalist>` (20 мов), а також вільне введення
+- Відповіді дописуються до файлу `survey_answers.txt` з міткою часу
+- Після збереження відображається повідомлення про успіх, форма очищується
+- Суворі вимоги безпеки Electron: `contextIsolation: true`, `nodeIntegration: false`, IPC через `preload.js`
+
+---
+
+## Структура проєкту
 
 ```
 Lab2_Electron/
-├── main.js          # Main process — window creation, IPC handler, fs write
-├── preload.js       # contextBridge — exposes surveyAPI to renderer
-├── index.html       # UI — survey form with datalist autocomplete
-├── styles.css       # Styles
-├── renderer.js      # Frontend logic — form submit, IPC invoke
-├── package.json     # Project config, start script
-└── survey_answers.txt  # Generated file with saved answers
+├── main.js          # Головний процес — створення вікна, обробник IPC, запис у файл
+├── preload.js       # contextBridge — публікує surveyAPI для рендерера
+├── index.html       # Інтерфейс — форма опитування з автодоповненням
+├── styles.css       # Стилі
+├── renderer.js      # Логіка фронтенду — відправка форми, виклик IPC
+├── package.json     # Конфігурація проєкту, скрипт запуску
+└── survey_answers.txt  # Файл із збереженими відповідями (генерується автоматично)
 ```
 
 ---
 
-## Security Architecture
+## Архітектура безпеки
 
-| Setting | Value |
+| Налаштування | Значення |
 |---|---|
 | `nodeIntegration` | `false` |
 | `contextIsolation` | `true` |
-| IPC method | `ipcRenderer.invoke` / `ipcMain.handle` |
-| Context bridge | `contextBridge.exposeInMainWorld` |
+| Метод IPC | `ipcRenderer.invoke` / `ipcMain.handle` |
+| Міст контексту | `contextBridge.exposeInMainWorld` |
 | CSP | `default-src 'self'` |
 
 ---
 
-## Getting Started
+## Запуск
 
-### Prerequisites
+### Вимоги
 
 - [Node.js](https://nodejs.org/) (v18+)
 
-### Install & Run
+### Встановлення та запуск
 
 ```bash
 npm install
@@ -67,19 +67,19 @@ npm start
 
 ---
 
-## How It Works
+## Як працює застосунок
 
-1. User fills in Name, Age, and Favorite Language
-2. On **Submit**, `renderer.js` calls `window.surveyAPI.submitSurvey(data)` via the context bridge
-3. `preload.js` forwards the call through `ipcRenderer.invoke('submit-survey', data)`
-4. `main.js` handles the IPC event, formats the entry, and appends it to `survey_answers.txt` using Node's `fs` module
-5. A success message is shown in the UI and the form is cleared
+1. Користувач заповнює поля: Ім'я, Вік та Улюблена мова
+2. При натисканні **Submit** `renderer.js` викликає `window.surveyAPI.submitSurvey(data)` через міст контексту
+3. `preload.js` передає виклик через `ipcRenderer.invoke('submit-survey', data)`
+4. `main.js` обробляє IPC-подію, формує запис і дописує його до `survey_answers.txt` за допомогою модуля `fs`
+5. В інтерфейсі відображається повідомлення про успіх, форма очищується
 
-### Example output in `survey_answers.txt`
+### Приклад вмісту `survey_answers.txt`
 
 ```
 --- Survey Entry (17.04.2026, 19:45:30) ---
-Name: Roman
+Name: Роман
 Age: 21
 Favorite Language: JavaScript
 ```
