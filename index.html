@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self'">
+  <title>Survey Form</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Survey Form</h1>
+
+    <form id="surveyForm">
+      <label for="name">Name</label>
+      <input type="text" id="name" placeholder="Enter your name" required>
+
+      <label for="age">Age</label>
+      <input type="number" id="age" placeholder="Enter your age" min="1" max="120" required>
+
+      <label for="language">Favorite Programming Language</label>
+      <input type="text" id="language" list="languageList" placeholder="e.g. Python" required>
+      <datalist id="languageList">
+        <option value="C#">
+        <option value="Visual Basic .NET">
+        <option value="C++">
+        <option value="C">
+        <option value="Java">
+        <option value="Python">
+        <option value="JavaScript">
+        <option value="TypeScript">
+        <option value="Go">
+        <option value="Rust">
+        <option value="PHP">
+        <option value="Ruby">
+        <option value="Swift">
+        <option value="Kotlin">
+        <option value="Dart">
+        <option value="F#">
+        <option value="Scala">
+        <option value="R">
+        <option value="MATLAB">
+        <option value="SQL">
+      </datalist>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <div id="message" class="message hidden"></div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
